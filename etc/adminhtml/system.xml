@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Ceymox. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="security">
+            <group id="style_smuggler_shield" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>StyleSmuggler Protection (Ceymox)</label>
+                <comment><![CDATA[Virtual patch for the "StyleSmuggler" GraphQL template-injection RCE advisory (sansec.io/research/stylesmuggler). Keep enabled until Adobe's official security patch is applied.]]></comment>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enable Protection</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Master switch for both protection layers below.</comment>
+                </field>
+                <field id="block_graphql_directives" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Reject GraphQL Requests Containing Template Directive Syntax</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>Blocks any GraphQL query or variable containing Magento directive syntax ({{block ...}}, {{template ...}}, {{layout ...}}, etc.) with an HTTP 400 response, before it reaches a resolver.</comment>
+                </field>
+                <field id="sanitize_email_variables" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Sanitize Transactional Email Template Variables</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>Strips template directive syntax out of every dynamic value passed into an outgoing transactional email (order, invoice, payment failed reminder, etc.) before rendering.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

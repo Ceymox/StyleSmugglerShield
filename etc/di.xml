@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Ceymox. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <virtualType name="Ceymox\StyleSmugglerShield\Logger\Logger" type="Monolog\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">styleSmugglerShield</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="system" xsi:type="object">Ceymox\StyleSmugglerShield\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Ceymox\StyleSmugglerShield\Plugin\GraphQlDirectiveGuardPlugin">
+        <arguments>
+            <argument name="logger" xsi:type="object">Ceymox\StyleSmugglerShield\Logger\Logger</argument>
+        </arguments>
+    </type>
+
+    <type name="Ceymox\StyleSmugglerShield\Plugin\TransportBuilderVarsSanitizerPlugin">
+        <arguments>
+            <argument name="logger" xsi:type="object">Ceymox\StyleSmugglerShield\Logger\Logger</argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\GraphQl\Controller\GraphQl">
+        <plugin name="ceymox_style_smuggler_shield_graphql_guard"
+                type="Ceymox\StyleSmugglerShield\Plugin\GraphQlDirectiveGuardPlugin"
+                sortOrder="1"/>
+    </type>
+
+    <type name="Magento\Framework\Mail\Template\TransportBuilder">
+        <plugin name="ceymox_style_smuggler_shield_email_vars_sanitizer"
+                type="Ceymox\StyleSmugglerShield\Plugin\TransportBuilderVarsSanitizerPlugin"
+                sortOrder="1"/>
+    </type>
+
+</config>

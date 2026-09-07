@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Ceymox. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <security>
+            <style_smuggler_shield>
+                <enabled>1</enabled>
+                <block_graphql_directives>1</block_graphql_directives>
+                <sanitize_email_variables>1</sanitize_email_variables>
+            </style_smuggler_shield>
+        </security>
+    </default>
+</config>
