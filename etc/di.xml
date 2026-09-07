@@ -40,4 +40,16 @@
                 sortOrder="1"/>
     </type>
 
+    <type name="Magento\Setup\Module\Di\Code\Scanner\ScannerInterface">
+        <plugin name="ceymox_style_smuggler_shield_di_scanner_cli_guard"
+                type="Ceymox\StyleSmugglerShield\Plugin\DiScannerCliGuardPlugin"
+                sortOrder="1"/>
+    </type>
+
+    <type name="Magento\Setup\Module\Di\Code\Reader\ClassesScannerInterface">
+        <plugin name="ceymox_style_smuggler_shield_di_classes_scanner_cli_guard"
+                type="Ceymox\StyleSmugglerShield\Plugin\DiScannerCliGuardPlugin"
+                sortOrder="1"/>
+    </type>
+
 </config>

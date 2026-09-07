@@ -14,7 +14,7 @@
                 <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Enable Protection</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Master switch for both protection layers below.</comment>
+                    <comment>Master switch for all protection layers below.</comment>
                 </field>
                 <field id="block_graphql_directives" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Reject GraphQL Requests Containing Template Directive Syntax</label>
@@ -31,6 +31,14 @@
                         <field id="enabled">1</field>
                     </depends>
                     <comment>Strips template directive syntax out of every dynamic value passed into an outgoing transactional email (order, invoice, payment failed reminder, etc.) before rendering.</comment>
+                </field>
+                <field id="restrict_di_scanners_to_cli" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Restrict DI Compiler Scanners to CLI Only</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>Blocks Magento's setup:di:compile scanner classes from running outside a CLI process. These classes include/read arbitrary files with no execution-context check of their own and have no legitimate reason to run during a web request.</comment>
                 </field>
             </group>
         </section>

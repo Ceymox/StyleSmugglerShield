@@ -22,7 +22,7 @@ for updates before assuming this is resolved upstream.
 
 ## What this module does
 
-Two independent, non-breaking protection layers:
+Three independent, non-breaking protection layers:
 
 1. **GraphQL request guard** — inspects every GraphQL query and its variables (including
    HTML-entity and URL-encoded obfuscation) for Magento directive syntax and rejects the
@@ -30,9 +30,15 @@ Two independent, non-breaking protection layers:
 2. **Transactional email sanitizer** — strips directive syntax out of every dynamic value
    passed to *any* outgoing transactional email (order, invoice, shipment, payment-failed
    reminder, etc.) before it reaches Magento's template rendering engine.
+3. **DI compiler scanner CLI guard** — blocks Magento's `setup:di:compile` scanner classes
+   (`ArrayScanner`, `ClassesScanner`, `XmlInterceptorScanner`, and the rest of
+   `ScannerInterface`) from running outside a CLI process. These classes `include`/
+   `require_once` arbitrary file paths with no execution-context check of their own, and
+   have no legitimate reason to run during a web request — closing this off is
+   independent, root-cause hardening regardless of how a payload reaches this point.
 
-Both layers are logged to `var/log/style_smuggler_shield.log` (payload + IP) and are
-individually toggleable from the admin panel.
+All three layers are logged to `var/log/style_smuggler_shield.log` (payload + IP where
+applicable) and are individually toggleable from the admin panel.
 
 ## Installation
 
@@ -67,6 +73,11 @@ php bin/magento cache:flush
 | Enable Protection | Yes |
 | Reject GraphQL Requests Containing Template Directive Syntax | Yes |
 | Sanitize Transactional Email Template Variables | Yes |
+| Restrict DI Compiler Scanners to CLI Only | Yes |
+
+> In production deployment mode, run `bin/magento setup:di:compile` after
+> installing or updating this module so the new plugins are baked into the
+> generated interceptor classes.
 
 ## Compatibility
 
@@ -83,7 +94,10 @@ signs of prior compromise — this module does not do either of those.
 
 ## Credits
 
-Vulnerability research and disclosure: [Sansec](https://sansec.io/research/stylesmuggler)
+- Vulnerability research and disclosure: [Sansec](https://sansec.io/research/stylesmuggler)
+- The DI compiler scanner root-cause detail (layer 3) was informed by public technical
+  analysis from [disrex-group/stylesmuggler-mitigation](https://github.com/disrex-group/stylesmuggler-mitigation).
+  The implementation here is original and independent of that repository's code.
 
 ## License
 
