@@ -38,11 +38,10 @@ individually toggleable from the admin panel.
 
 ### Composer (recommended)
 
-Add this repository to your Magento project's `composer.json`, then require the package:
+Published on [Packagist](https://packagist.org/packages/ceymox/module-style-smuggler-shield):
 
 ```bash
-composer config repositories.ceymox-style-smuggler-shield vcs https://github.com/Ceymox/StyleSmugglerShield
-composer require ceymox/module-style-smuggler-shield:^1.0
+composer require ceymox/module-style-smuggler-shield
 php bin/magento module:enable Ceymox_StyleSmugglerShield
 php bin/magento setup:upgrade
 php bin/magento cache:flush
