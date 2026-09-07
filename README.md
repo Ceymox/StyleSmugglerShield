@@ -5,8 +5,7 @@ blocks the **StyleSmuggler** GraphQL template-injection vulnerability — an unp
 remote code execution (RCE) zero-day disclosed by [Sansec](https://sansec.io/research/stylesmuggler)
 and actively exploited in the wild since September 4, 2026.
 
-If you run Magento Open Source or Adobe Commerce **2.4.7, 2.4.8, or 2.4.9** and haven't
-applied Adobe's official patch yet, this module closes the attack path in minutes.
+If you run Magento Open Source or Adobe Commerce **2.4.7, 2.4.8, or 2.4.9**, this module closes the attack path in minutes.
 
 ## The vulnerability
 
@@ -17,8 +16,9 @@ Transaction Failed Reminder** transactional email — a notification the malware
 deliberately triggers — at which point the directive executes with full PHP code
 execution on the server.
 
-No CVE has been assigned yet. Sansec has withheld the exact bypass mechanics pending
-Adobe's official fix, expected 2026-09-08.
+No CVE has been assigned. As of this writing, no official Adobe security patch has
+been published — check [Adobe's Security Bulletins](https://helpx.adobe.com/security/products/magento.html)
+for updates before assuming this is resolved upstream.
 
 ## What this module does
 
@@ -35,6 +35,20 @@ Both layers are logged to `var/log/style_smuggler_shield.log` (payload + IP) and
 individually toggleable from the admin panel.
 
 ## Installation
+
+### Composer (recommended)
+
+Add this repository to your Magento project's `composer.json`, then require the package:
+
+```bash
+composer config repositories.ceymox-style-smuggler-shield vcs https://github.com/Ceymox/StyleSmugglerShield
+composer require ceymox/module-style-smuggler-shield:^1.0
+php bin/magento module:enable Ceymox_StyleSmugglerShield
+php bin/magento setup:upgrade
+php bin/magento cache:flush
+```
+
+### Manual
 
 ```bash
 cd <magento-root>
@@ -62,11 +76,11 @@ php bin/magento cache:flush
 
 ## Disclaimer
 
-This is a **virtual patch**, not Adobe's official security fix. Apply Adobe's patch as
-soon as it is released and keep this module as defense-in-depth. Given active
-exploitation in the wild, also scan for existing backdoors (e.g. with Sansec's
-eComscan) and review admin users and cron jobs for signs of prior compromise — this
-module does not do either of those.
+This is a **virtual patch**, not an official Adobe security fix — there isn't one
+published yet. If and when Adobe releases one, apply it and keep this module as
+defense-in-depth. Given active exploitation in the wild, also scan for existing
+backdoors (e.g. with Sansec's eComscan) and review admin users and cron jobs for
+signs of prior compromise — this module does not do either of those.
 
 ## Credits
 

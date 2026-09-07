@@ -1,0 +1,21 @@
+{
+    "name": "ceymox/module-style-smuggler-shield",
+    "description": "Magento 2 / Adobe Commerce security module that blocks the StyleSmuggler GraphQL template-injection RCE.",
+    "type": "magento2-module",
+    "license": "proprietary",
+    "require": {
+        "php": "~8.1.0||~8.2.0||~8.3.0",
+        "magento/framework": ">=103.0.0",
+        "magento/module-graph-ql": ">=100.4.0",
+        "magento/module-email": ">=101.1.0",
+        "magento/module-sales": ">=103.0.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ceymox\\StyleSmugglerShield\\": ""
+        }
+    }
+}
