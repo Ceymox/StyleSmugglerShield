@@ -87,12 +87,30 @@ php bin/magento cache:flush
 - Magento Open Source / Adobe Commerce 2.4.7 – 2.4.9
 - PHP 8.1 – 8.3
 
+## Why keep this module after applying `VULN-39341`
+
+Apply Adobe's patch first — it fixes the actual source. But there's still a reason
+to leave this module running afterward:
+
+- **Layer 1 is broader than the patch.** `VULN-39341` closes the specific vectors
+  Adobe found (`setTemplateStyles`, `BlockFactory`, etc.). The GraphQL guard blocks
+  *any* directive syntax reaching GraphQL, regardless of which field carries it —
+  coverage for a variant nobody's found yet.
+- **Layer 3 isn't about this CVE at all.** Restricting DI compiler classes to CLI-only
+  is sound hardening on its own merits, independent of whether this specific bug is
+  patched.
+- **Zero measurable cost.** Negligible overhead, no conflicts with the official
+  patch (verified running together), fully toggleable per-layer if you disagree.
+
+Layer 2 (the email template variable sanitizer) is the one layer the patch makes
+genuinely redundant — `setTemplateStyles`/`setTemplateText` now do the equivalent
+job more precisely at the source.
+
 ## Disclaimer
 
 This is a **virtual patch**, not a substitute for Adobe's official fix
 (`VULN-39341` / CVE-2026-75650). Apply that patch — it corrects the vulnerable
-source directly, which this module does not do. Keeping this module active
-afterward as defense-in-depth is harmless either way.
+source directly, which this module does not do.
 
 Applying the patch does not clean a store that was already compromised during the
 exploitation window (September 4–7, 2026). Given active exploitation in the wild,
