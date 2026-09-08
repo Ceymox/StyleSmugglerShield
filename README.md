@@ -1,11 +1,15 @@
 # StyleSmuggler Shield for Magento 2
 
 **Ceymox_StyleSmugglerShield** is a free Magento 2 / Adobe Commerce security module that
-blocks the **StyleSmuggler** GraphQL template-injection vulnerability — an unpatched
-remote code execution (RCE) zero-day disclosed by [Sansec](https://sansec.io/research/stylesmuggler)
-and actively exploited in the wild since September 4, 2026.
+blocks the **StyleSmuggler** GraphQL template-injection vulnerability, disclosed by
+[Sansec](https://sansec.io/research/stylesmuggler) and actively exploited in the wild
+since September 4, 2026.
 
-If you run Magento Open Source or Adobe Commerce **2.4.7, 2.4.8, or 2.4.9**, this module closes the attack path in minutes.
+Adobe released an official fix on September 7, 2026 —
+**[CVE-2026-75650 / APSB26-146](https://experienceleague.adobe.com/en/docs/commerce-knowledge-base/kb/announcements/commerce-apsb26-146)**,
+CVSS 10.0, patch identifier `VULN-39341`. Apply that patch first — it's the real fix.
+This module remains useful as defense-in-depth and for stores that haven't applied
+`VULN-39341` yet.
 
 ## The vulnerability
 
@@ -16,9 +20,8 @@ Transaction Failed Reminder** transactional email — a notification the malware
 deliberately triggers — at which point the directive executes with full PHP code
 execution on the server.
 
-No CVE has been assigned. As of this writing, no official Adobe security patch has
-been published — check [Adobe's Security Bulletins](https://helpx.adobe.com/security/products/magento.html)
-for updates before assuming this is resolved upstream.
+Adobe's fix is tracked as **CVE-2026-75650** ([APSB26-146](https://experienceleague.adobe.com/en/docs/commerce-knowledge-base/kb/announcements/commerce-apsb26-146)),
+patch `VULN-39341`, released September 7, 2026.
 
 ## What this module does
 
@@ -86,18 +89,20 @@ php bin/magento cache:flush
 
 ## Disclaimer
 
-This is a **virtual patch**, not an official Adobe security fix — there isn't one
-published yet. If and when Adobe releases one, apply it and keep this module as
-defense-in-depth. Given active exploitation in the wild, also scan for existing
-backdoors (e.g. with Sansec's eComscan) and review admin users and cron jobs for
-signs of prior compromise — this module does not do either of those.
+This is a **virtual patch**, not a substitute for Adobe's official fix
+(`VULN-39341` / CVE-2026-75650). Apply that patch — it corrects the vulnerable
+source directly, which this module does not do. Keeping this module active
+afterward as defense-in-depth is harmless either way.
+
+Applying the patch does not clean a store that was already compromised during the
+exploitation window (September 4–7, 2026). Given active exploitation in the wild,
+also scan for existing backdoors (e.g. with Sansec's eComscan) and review admin
+users and cron jobs for signs of prior compromise — this module does not do either
+of those.
 
 ## Credits
 
-- Vulnerability research and disclosure: [Sansec](https://sansec.io/research/stylesmuggler)
-- The DI compiler scanner root-cause detail (layer 3) was informed by public technical
-  analysis from [disrex-group/stylesmuggler-mitigation](https://github.com/disrex-group/stylesmuggler-mitigation).
-  The implementation here is original and independent of that repository's code.
+Vulnerability research and disclosure: [Sansec](https://sansec.io/research/stylesmuggler)
 
 ## License
 
